@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SesiBerakhir, apiFetch, LENCANA_STATUS, gayaLencanaSegmen, warnaSegmen } from "@/lib/api";
+import { KerangkaSegmentasi } from "@/components/Kerangka";
 
 type Status = "Aktif" | "Kurang Aktif" | "Tidak Aktif";
 const STATUS: Status[] = ["Aktif", "Kurang Aktif", "Tidak Aktif"];
@@ -344,7 +345,7 @@ export default function Segmentasi() {
 
       {galat && <p role="alert" className="notif-galat">{galat}</p>}
       {pesan && <p role="status" className="notif-sukses">{pesan}</p>}
-      {!data && !galat && <p className="text-sm text-teks-3">Memuat…</p>}
+      {!data && !galat && <KerangkaSegmentasi />}
       {data && !data.siap && (
         <p className="kosong">
           {data.detail} Tekan tombol <b>Jalankan segmentasi</b> untuk menghitung RFM dan mengelompokkan pelanggan

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SesiBerakhir, apiFetch } from "@/lib/api";
 import JaringanProduk from "./JaringanProduk";
+import { KerangkaFormPola, KerangkaHasilPola } from "@/components/Kerangka";
 
 type Aturan = { antecedent: string; consequent: string; support: number; confidence: number; lift: number };
 type HasilSegmen = { segmen: string; jumlah_transaksi: number; keterangan: string | null; aturan: Aturan[] };
@@ -111,6 +112,9 @@ export default function Pola() {
         </p>
       )}
       {galat && <p role="alert" className="notif-galat">{galat}</p>}
+
+      {!sens && !galat && !belumSegmentasi && <KerangkaFormPola />}
+      {!hasil && !galat && !belumSegmentasi && (!sens || memproses) && <KerangkaHasilPola />}
 
       {sens && (
         <form

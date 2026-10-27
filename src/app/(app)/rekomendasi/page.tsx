@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SesiBerakhir, apiFetch, apiUnduh } from "@/lib/api";
+import { KerangkaRekomendasi } from "@/components/Kerangka";
 
 type Bukti = { antecedent: string; consequent: string; support: number; confidence: number; lift: number };
 type Rekomendasi = {
@@ -115,7 +116,7 @@ export default function HalamanRekomendasi() {
       </header>
 
       {galat && <p role="alert" className="notif-galat">{galat}</p>}
-      {!data && !galat && <p className="text-sm text-teks-3">Memuat…</p>}
+      {!data && !galat && <KerangkaRekomendasi />}
 
       {data && data.length === 0 && (
         <p className="kosong">

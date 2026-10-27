@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { SesiBerakhir, apiFetch } from "@/lib/api";
 import DaftarTransaksi from "./DaftarTransaksi";
+import { BarisKerangka } from "@/components/Kerangka";
 
 type Riwayat = { nama_berkas: string; tanggal: string; pengunggah: string; status: "berhasil" | "gagal" };
 type Ringkasan = Record<string, number>;
@@ -32,6 +33,7 @@ export default function DataTransaksi() {
   const [galat, setGalat] = useState("");
   const [ringkasan, setRingkasan] = useState<Ringkasan | null>(null);
   const [riwayat, setRiwayat] = useState<Riwayat[]>([]);
+  const [riwayatDimuat, setRiwayatDimuat] = useState(false);
   const [versi, setVersi] = useState(0);
   const [halamanRiwayat, setHalamanRiwayat] = useState(1);
 
@@ -48,6 +50,7 @@ export default function DataTransaksi() {
       .then((d) => {
         setRiwayat(d);
         setHalamanRiwayat(1);
+        setRiwayatDimuat(true);
       })
       .catch(tanganiGalat);
   }, [tanganiGalat]);
@@ -171,7 +174,8 @@ export default function DataTransaksi() {
               </tr>
             </thead>
             <tbody>
-              {riwayat.length === 0 && (
+              {!riwayatDimuat && !galat && <BarisKerangka kolom={4} baris={3} />}
+              {riwayatDimuat && riwayat.length === 0 && (
                 <tr><td colSpan={4} className="py-8 text-center text-teks-3">Belum ada unggahan.</td></tr>
               )}
               {riwayatTampil.map((r, i) => (

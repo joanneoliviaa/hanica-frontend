@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SesiBerakhir, ambilPengguna, apiFetch, gayaLencanaSegmen, warnaSegmen } from "@/lib/api";
+import { KerangkaDasbor } from "@/components/Kerangka";
 
 type Status = "Aktif" | "Kurang Aktif" | "Tidak Aktif";
 type Segmen = { label: string; nomor: number; jumlah: number; status_keaktifan: Record<Status, number> };
@@ -291,7 +292,7 @@ export default function Dasbor() {
   }, [router]);
 
   if (galat) return (<><Kepala /><p role="alert" className="notif-galat mt-6">{galat}</p></>);
-  if (!data) return (<><Kepala /><p className="mt-6 text-sm text-teks-3">Memuat…</p></>);
+  if (!data) return (<><Kepala /><KerangkaDasbor /></>);
   if (!data.siap) return (
     <>
       <Kepala />

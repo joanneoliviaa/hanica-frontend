@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SesiBerakhir, apiFetch } from "@/lib/api";
+import { BarisKerangka } from "@/components/Kerangka";
 
 type Baris = {
   tanggal: string;
@@ -141,7 +142,7 @@ export default function DaftarTransaksi({ versi = 0 }: { versi?: number }) {
               </tr>
             )}
             {!hasil && !galat && (
-              <tr><td colSpan={8} className="py-8 text-center text-teks-3">Memuat…</td></tr>
+              <BarisKerangka kolom={8} baris={8} />
             )}
             {hasil?.data.map((b, i) => (
               <tr key={i} className="align-top hover:bg-isian">

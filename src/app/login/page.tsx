@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { masuk } from "@/lib/api";
 import { IlustrasiDashboard, IlustrasiPola, IlustrasiRekomendasi, IlustrasiSegmentasi } from "./Ilustrasi";
+import { PesanServerBangun } from "@/components/Kerangka";
 
 const SLIDE = [
   {
@@ -249,6 +250,7 @@ export default function HalamanLogin() {
             >
               {memuat ? "Memeriksa…" : "Masuk"}
             </button>
+            {memuat && <PesanServerBangun terang />}
           </form>
 
           <p className="mt-8 max-w-[40ch] text-sm leading-relaxed text-brand-100/70">
