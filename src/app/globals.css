@@ -1,8 +1,76 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6f7f9;
+  --foreground: #1b2430;
+}
+
+@theme {
+  --color-brand-50: #f0f8f0;
+  --color-brand-100: #dcefdc;
+  --color-brand-200: #bde0bd;
+  --color-brand-300: #8fcb8f;
+  --color-brand-400: #4fa94f;
+  --color-brand-500: #1a8c1a;
+  --color-brand-600: #0a7d0a;
+  --color-brand-700: #007800;
+  --color-brand-800: #005f00;
+  --color-brand-900: #004a00;
+
+  /* Netral kehijauan untuk halaman setelah login */
+  --color-latar: #f3f7f2;   /* latar area konten */
+  --color-garis: #e1ebe0;   /* garis tepi kartu */
+  --color-garis-input: #cfe0ce;
+  --color-isian: #f7faf6;   /* latar input & baris sorot */
+  --color-teks-2: #4b5a52;  /* teks sekunder */
+  --color-teks-3: #5b6675;  /* teks keterangan */
+}
+
+/* ---------- Komponen bersama halaman aplikasi ---------- */
+@layer components {
+  .judul-halaman { @apply text-[1.625rem] sm:text-[1.875rem] font-semibold leading-tight tracking-tight text-brand-900; }
+  .deskripsi-halaman { @apply mt-1.5 max-w-[68ch] text-[15px] leading-relaxed text-teks-2; }
+  .judul-kartu { @apply text-[17px] font-semibold text-brand-900; }
+
+  .kartu { @apply rounded-3xl border border-garis bg-white p-5 sm:p-6; }
+
+  .tombol-utama {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-brand-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .tombol-sekunder {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-brand-200 bg-white px-5 text-sm font-semibold text-brand-900 transition-colors hover:bg-brand-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .tautan { @apply font-semibold text-brand-700 underline underline-offset-2 hover:text-brand-800; }
+
+  .input {
+    @apply min-h-10 rounded-full border border-garis-input bg-white px-4 text-sm text-foreground outline-none transition-colors placeholder:text-teks-3 hover:border-brand-300 focus:border-brand-700 focus:ring-4 focus:ring-brand-700/10;
+  }
+  .label-input { @apply block pl-4 text-[13px] font-medium text-teks-2; }
+
+  .notif-sukses { @apply rounded-2xl bg-brand-100 px-5 py-3 text-sm text-brand-900; }
+  .notif-galat { @apply rounded-2xl bg-red-50 px-5 py-3 text-sm text-red-800; }
+  .notif-peringatan { @apply rounded-2xl bg-amber-50 px-5 py-3 text-sm text-amber-900; }
+
+  .kosong { @apply rounded-3xl border-2 border-dashed border-brand-200 bg-white p-6 text-sm leading-relaxed text-teks-2; }
+
+  .lencana { @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold; }
+
+  .grup-tab { @apply flex w-max max-w-full gap-1 overflow-x-auto rounded-[22px] bg-brand-50 p-1; }
+  .tab {
+    @apply min-h-10 shrink-0 whitespace-nowrap rounded-full px-4 text-sm font-medium text-teks-2 transition-colors hover:text-brand-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700;
+  }
+  .tab[aria-selected="true"], .tab[aria-pressed="true"] { @apply bg-brand-800 font-semibold text-white; }
+
+  .bingkai-tabel { @apply overflow-x-auto rounded-2xl border border-[#e9f0e8]; }
+  .tabel { @apply w-full min-w-[640px] text-left text-sm; }
+  .tabel thead { @apply bg-brand-50 text-xs text-[#33563a]; }
+  .tabel th { @apply px-4 py-3 font-semibold; }
+  .tabel td { @apply px-4 py-3; }
+  .tabel tbody tr { @apply border-t border-[#eef3ee]; }
+
+  .tombol-halaman {
+    @apply inline-flex min-h-9 items-center rounded-full border border-garis-input bg-white px-3.5 text-[13px] font-medium text-teks-2 transition-colors hover:bg-brand-50 disabled:cursor-not-allowed disabled:opacity-40;
+  }
 }
 
 @theme inline {
@@ -12,15 +80,39 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes isi-progres {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.progres-slide {
+  animation-name: isi-progres;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progres-slide { animation: none; width: 100%; }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
+
+/* Dropdown: panah sendiri supaya tidak mepet ke tepi kanan */
+select.input {
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23005f00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+}
+
+/* Tab segmen bisa digeser di layar kecil tanpa scrollbar yang mengganggu */
+.grup-tab { scrollbar-width: none; }
+.grup-tab::-webkit-scrollbar { display: none; }
