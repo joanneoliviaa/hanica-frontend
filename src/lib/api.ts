@@ -103,7 +103,7 @@ const indeks = (nomor: number) => (Math.max(nomor, 1) - 1) % WARNA_SEGMEN.length
 export const warnaSegmen = (nomor: number) => WARNA_SEGMEN[indeks(nomor)];
 export const gayaLencanaSegmen = (nomor: number) => ({ background: LATAR_SEGMEN[indeks(nomor)], color: TEKS_SEGMEN[indeks(nomor)] });
 
-// Lencana status keaktifan (kelas Tailwind)
+// Lencana status keaktifan
 export const LENCANA_STATUS: Record<string, string> = {
   Aktif: "bg-brand-100 text-brand-900",
   "Kurang Aktif": "bg-amber-100/70 text-amber-900",

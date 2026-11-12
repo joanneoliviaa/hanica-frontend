@@ -24,7 +24,17 @@ function singkat(nama: string): string {
   return dua.replace(/^CUP\s+/i, "");
 }
 
-export default function JaringanProduk({ aturan, nomor }: { aturan: Aturan[]; nomor: number }) {
+export type PilihanJaringan = { a: string; b?: string };
+
+export default function JaringanProduk({
+  aturan,
+  nomor,
+  onPilih,
+}: {
+  aturan: Aturan[];
+  nomor: number;
+  onPilih?: (pilihan: PilihanJaringan) => void;
+}) {
   const warna = WARNA[(nomor - 1) % WARNA.length];
   const [nodeAktif, setNodeAktif] = useState<string | null>(null);
   const [tepiAktif, setTepiAktif] = useState<string | null>(null);
@@ -128,11 +138,15 @@ export default function JaringanProduk({ aturan, nomor }: { aturan: Aturan[]; no
                   y2={b.y}
                   stroke="transparent"
                   strokeWidth={12}
+                  className={onPilih ? "cursor-pointer" : undefined}
                   onMouseEnter={() => {
                     setNodeAktif(null);
                     setTepiAktif(k);
                   }}
-                />
+                  onClick={() => onPilih?.({ a: p.a, b: p.b })}
+                >
+                  <title>{`${p.a} ↔ ${p.b} — klik untuk melihat aturannya di tabel`}</title>
+                </line>
               </g>
             );
           })}
@@ -145,10 +159,12 @@ export default function JaringanProduk({ aturan, nomor }: { aturan: Aturan[]; no
               <g
                 key={n}
                 opacity={dim ? 0.25 : 1}
+                className={onPilih ? "cursor-pointer" : undefined}
                 onMouseEnter={() => {
                   setTepiAktif(null);
                   setNodeAktif(n);
                 }}
+                onClick={() => onPilih?.({ a: n })}
               >
                 <circle cx={p.x} cy={p.y} r={jari(n)} fill={warna} stroke="#f7faf6" strokeWidth={2} />
                 <text
@@ -160,7 +176,7 @@ export default function JaringanProduk({ aturan, nomor }: { aturan: Aturan[]; no
                 >
                   {g.label.get(n)}
                 </text>
-                <title>{n}</title>
+                <title>{`${n} — klik untuk melihat aturannya di tabel`}</title>
               </g>
             );
           })}
@@ -175,7 +191,7 @@ export default function JaringanProduk({ aturan, nomor }: { aturan: Aturan[]; no
               <b>{nodeAktif}</b> terhubung dengan {Math.max(tetangga.size - 1, 0)} produk lain.
             </>
           ) : (
-            "Arahkan kursor ke titik atau garis untuk detail."
+            "Arahkan kursor ke titik atau garis untuk detail. Klik untuk menampilkan aturannya di tabel."
           )}
         </div>
       </div>

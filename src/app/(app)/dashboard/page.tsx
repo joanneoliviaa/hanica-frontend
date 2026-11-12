@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SesiBerakhir, ambilPengguna, apiFetch, gayaLencanaSegmen, warnaSegmen } from "@/lib/api";
 import { KerangkaDasbor } from "@/components/Kerangka";
+import DaftarProduk from "@/components/DaftarProduk";
 
 type Status = "Aktif" | "Kurang Aktif" | "Tidak Aktif";
 type Segmen = { label: string; nomor: number; jumlah: number; status_keaktifan: Record<Status, number> };
@@ -63,7 +64,7 @@ function KartuTotal({ nilai }: { nilai: number }) {
         <p className="text-[13px] font-medium text-brand-100">Total pelanggan</p>
         <span className="grid size-8 place-items-center rounded-full bg-white/[0.12]">
           <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" {...garis}>
-            <circle cx="12" cy="8" r="3.5" /><path d="M5 20c.8-3.5 3.6-5.5 7-5.5s6.2 2 7 5.5" />
+            <circle cx="10" cy="7" r="4.5" /><path d="M3 21a7.5 7.5 0 0 1 7.5-7.5" /><path d="M17.5 13 18.79 15.72 21.78 16.11 19.59 18.18 20.15 21.14 17.5 19.7 14.85 21.14 15.41 18.18 13.22 16.11 16.21 15.72Z" />
           </svg>
         </span>
       </div>
@@ -262,7 +263,7 @@ function Kepala({ periode }: { periode?: Ringkasan["periode_data"] }) {
   return (
     <header className="flex flex-wrap items-end justify-between gap-3 sm:gap-4">
       <div>
-        {pengguna && <p className="mb-1.5 text-sm text-[#3f6b3f]">Halo, {pengguna}</p>}
+        {pengguna && <p className="mb-1.5 text-sm text-[#330a18]">Halo, {pengguna}</p>}
         <h1 className="judul-halaman">Dashboard</h1>
       </div>
       {periode && (
@@ -358,8 +359,8 @@ export default function Dasbor() {
               <tbody>
                 {data.aturan_lift_tertinggi.map((a, i) => (
                   <tr key={i} className="align-top">
-                    <td>{a.antecedent}</td>
-                    <td>{a.consequent}</td>
+                    <td><DaftarProduk teks={a.antecedent} /></td>
+                    <td><DaftarProduk teks={a.consequent} /></td>
                     <td>
                       <span className="lencana" style={gayaLencanaSegmen(nomorSegmen[a.segmen] ?? 1)}>
                         <span className="size-2 rounded-full" style={{ background: warnaSegmen(nomorSegmen[a.segmen] ?? 1) }} />

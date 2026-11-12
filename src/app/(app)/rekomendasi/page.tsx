@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SesiBerakhir, apiFetch, apiUnduh } from "@/lib/api";
 import { KerangkaRekomendasi } from "@/components/Kerangka";
+import DaftarProduk from "@/components/DaftarProduk";
 
 type Bukti = { antecedent: string; consequent: string; support: number; confidence: number; lift: number };
 type Rekomendasi = {
@@ -25,7 +26,7 @@ const garis = { fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLi
 function Bagian({ judul, teks, ikon, sorot = false }: { judul: string; teks: string; ikon: React.ReactNode; sorot?: boolean }) {
   return (
     <div className={`flex gap-4 ${sorot ? "rounded-2xl bg-brand-50 p-5" : "px-5 py-5"}`}>
-      <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${sorot ? "bg-brand-800 text-white" : "bg-brand-50 text-brand-700"}`}>
+      <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${sorot ? "bg-brand-900 text-white" : "bg-brand-50 text-brand-700"}`}>
         <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true" {...garis}>{ikon}</svg>
       </span>
       <div className="min-w-0">
@@ -189,8 +190,8 @@ export default function HalamanRekomendasi() {
                   <tbody>
                     {r.bukti.map((b, i) => (
                       <tr key={i} className="align-top hover:bg-isian">
-                        <td>{b.antecedent}</td>
-                        <td>{b.consequent}</td>
+                        <td><DaftarProduk teks={b.antecedent} /></td>
+                        <td><DaftarProduk teks={b.consequent} /></td>
                         <td className="text-right tabular-nums">{persen(b.support)}</td>
                         <td className="text-right tabular-nums">{persen(b.confidence)}</td>
                         <td className="text-right font-bold text-brand-900 tabular-nums">{angka(b.lift)}</td>

@@ -1,6 +1,3 @@
-// Ilustrasi flat minimalis untuk carousel halaman login.
-// Warna mengikuti token brand di globals.css dan warna segmen di halaman Dashboard/Segmentasi.
-
 const W = {
   g900: "#004a00",
   g800: "#005f00",
